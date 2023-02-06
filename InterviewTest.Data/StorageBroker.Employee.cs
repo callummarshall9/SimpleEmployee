@@ -29,8 +29,6 @@ namespace InterviewTest.Data
         {
             EntityEntry<Employee> entityEntryEmployee = Remove(employee);
             await SaveChangesAsync();
-
-            return entityEntryEmployee.Entity;
         }
 
         public IQueryable<Employee> GetAllEmployees()
