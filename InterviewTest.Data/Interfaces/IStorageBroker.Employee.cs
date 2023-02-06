@@ -6,7 +6,7 @@ namespace InterviewTest.Data.Interfaces
 {
     public interface IStorageBroker
     {
-        ValueTask<Employee> DeleteEmployeeAsync(Employee employee);
+        ValueTask DeleteEmployeeAsync(Employee employee);
         IQueryable<Employee> GetAllEmployees();
         ValueTask<Employee> AddEmployeeAsync(Employee employee);
         ValueTask<Employee> UpdateEmployeeAsync(Employee employee);

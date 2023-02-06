@@ -25,7 +25,7 @@ namespace InterviewTest.Data
             return entityEntryEmployee.Entity;
         }
 
-        public async ValueTask<Employee> DeleteEmployeeAsync(Employee employee)
+        public async ValueTask DeleteEmployeeAsync(Employee employee)
         {
             EntityEntry<Employee> entityEntryEmployee = Remove(employee);
             await SaveChangesAsync();
