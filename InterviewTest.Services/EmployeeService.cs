@@ -16,7 +16,7 @@ namespace InterviewTest.Services
             this.storageBroker = storageBroker;
         }
 
-        public ValueTask<Employee> DeleteEmployeeAsync(Employee employee)
+        public ValueTask DeleteEmployeeAsync(Employee employee)
         {
             throw new NotImplementedException();
         }
