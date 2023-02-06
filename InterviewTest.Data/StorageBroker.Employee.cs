@@ -9,7 +9,7 @@ namespace InterviewTest.Data
 {
     public partial class StorageBroker
     {
-        public async ValueTask<Employee> InsertStudentAsync(Employee employee)
+        public async ValueTask<Employee> AddEmployeeAsync(Employee employee)
         {
             EntityEntry<Employee> entityEntryEmployee = await base.AddAsync(employee);
             await SaveChangesAsync();

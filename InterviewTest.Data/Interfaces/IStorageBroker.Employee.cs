@@ -8,7 +8,7 @@ namespace InterviewTest.Data.Interfaces
     {
         ValueTask<Employee> DeleteEmployeeAsync(Employee employee);
         IQueryable<Employee> GetAllEmployees();
-        ValueTask<Employee> InsertStudentAsync(Employee employee);
+        ValueTask<Employee> AddEmployeeAsync(Employee employee);
         ValueTask<Employee> UpdateEmployeeAsync(Employee employee);
         void Migrate();
     }
