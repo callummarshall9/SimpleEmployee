@@ -1,4 +1,4 @@
-﻿using InterviewTest.Data;
+﻿using InterviewTest.Data.Interfaces;
 using InterviewTest.Model;
 using InterviewTest.Services.Interfaces;
 using System;
