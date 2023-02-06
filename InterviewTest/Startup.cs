@@ -1,5 +1,6 @@
 using InterviewTest.Data;
 using InterviewTest.Data.Interfaces;
+using InterviewTest.Model;
 using InterviewTest.Services;
 using InterviewTest.Services.Interfaces;
 using Microsoft.AspNetCore.Builder;
@@ -9,6 +10,8 @@ using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.OData.Edm;
+using Microsoft.OData.ModelBuilder;
 
 namespace InterviewTest
 {
@@ -25,7 +28,7 @@ namespace InterviewTest
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers()
-                .AddOData(options => options.Expand().Filter().SetMaxTop(100).Count().OrderBy().Select());
+                .AddOData(options => options.Expand().Filter().SetMaxTop(100).Count().OrderBy().Select().AddRouteComponents("api", GetEdmModel()));
 
             services.AddTransient<IStorageBroker, StorageBroker>();
             services.AddTransient<IEmployeeService, EmployeeService>();
@@ -33,6 +36,13 @@ namespace InterviewTest
             var config = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build();
             services.AddTransient(_ => config);
             services.AddSpaStaticFiles(configuration => configuration.RootPath = "ClientApp/build");
+        }
+
+        private IEdmModel GetEdmModel()
+        {
+            var builder = new ODataConventionModelBuilder();
+            builder.EntitySet<Employee>("Employees");
+            return builder.GetEdmModel();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -58,6 +68,7 @@ namespace InterviewTest
                 if (env.IsDevelopment())
                     spa.UseReactDevelopmentServer(npmScript: "start");
             });
+
         }
     }
 }
