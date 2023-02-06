@@ -2,6 +2,8 @@
 using InterviewTest.Model;
 using InterviewTest.Services.Interfaces;
 using Moq;
+using System;
+using System.Linq;
 using Tynamix.ObjectFiller;
 
 namespace InterviewTest.Services.Tests
@@ -16,6 +18,11 @@ namespace InterviewTest.Services.Tests
             storageBrokerMock = new Mock<IStorageBroker>();
             employeeService = new EmployeeService(storageBrokerMock.Object);
         }
+
+        public Employee[] RandomEmployees()
+            => Enumerable.Range(0, new Random().Next(1, 10))
+                .Select(_ => RandomEmployee())
+                .ToArray();
 
         public Employee RandomEmployee()
             => GetEmployeeFiller().Create();
