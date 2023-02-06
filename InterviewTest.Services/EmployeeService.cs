@@ -27,9 +27,7 @@ namespace InterviewTest.Services
         }
 
         public ValueTask<Employee> AddEmployeeAsync(Employee employee)
-        {
-            throw new NotImplementedException();
-        }
+            => storageBroker.AddEmployeeAsync(employee);
 
         public ValueTask<Employee> UpdateEmployeeAsync(Employee employee)
         {
