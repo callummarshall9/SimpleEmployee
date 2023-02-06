@@ -20,9 +20,7 @@ namespace InterviewTest.Services
             => storageBroker.DeleteEmployeeAsync(employee);
 
         public IQueryable<Employee> GetAllEmployees()
-        {
-            throw new NotImplementedException();
-        }
+            => storageBroker.GetAllEmployees();
 
         public ValueTask<Employee> AddEmployeeAsync(Employee employee)
             => storageBroker.AddEmployeeAsync(employee);
