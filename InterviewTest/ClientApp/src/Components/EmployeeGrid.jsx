@@ -5,7 +5,7 @@ import { Grid, GridColumn as Column } from "@progress/kendo-react-grid";
 import { EmployeesDataLoader } from "../Data/EmployeeDataLoader";
 
 export function EmployeeGrid() {
-    const [employees, setProducts] = React.useState({
+    const [employees, setEmployees] = React.useState({
         data: [],
         total: 77,
     });
@@ -18,7 +18,7 @@ export function EmployeeGrid() {
     };
     const dataReceived = (employees) => {
         console.log(employees);
-        setProducts(employees);
+        setEmployees(employees);
     };
     return (
         <div>

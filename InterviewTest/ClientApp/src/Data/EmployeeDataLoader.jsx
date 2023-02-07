@@ -1,42 +1,39 @@
-﻿import * as React from "react";
+﻿import React, { useEffect, useState } from 'react';
 import * as ReactDOM from "react-dom";
 import { toODataString } from "@progress/kendo-data-query";
 
 export const EmployeesDataLoader = (props) => {
-  const baseUrl = "api/Employees?$count=true&";
-  const init = {
-    method: "GET",
-    accept: "application/json",
-    headers: {},
-  };
-  const lastSuccess = React.useRef("");
-  const pending = React.useRef("");
-  const requestDataIfNeeded = () => {
-    if (pending.current || toODataString(props.dataState) === lastSuccess.current) {
-      return;
-    }
+    const [data, setData] = useState("");
 
-    pending.current = toODataString(props.dataState);
+    useEffect(() => {
+        async function getData(dataState) {
+            const baseUrl = "api/Employees?$count=true&";
 
-    fetch(baseUrl + pending.current, init)
-        .then((response) => response.json())
-        .then((json) => {
+            const init = {
+                method: "GET",
+                accept: "application/json",
+                headers: {},
+            };
 
-            lastSuccess.current = pending.current;
-            pending.current = "";
-            if (toODataString(props.dataState) === lastSuccess.current) {
-                props.onDataReceived.call(undefined, {
-                    data: json.value || 0,
-                    total: json.hasOwnProperty("@odata.count") ? json["@odata.count"] : 0,
-                });
-            } else {
-                requestDataIfNeeded();
-            }
-        });
-  };
-  requestDataIfNeeded();
-  return pending.current ? <LoadingPanel /> : null;
+            var odataResponse = await fetch(baseUrl + toODataString(dataState), init);
+            var jsonData = await odataResponse.json();
+
+            setData(jsonData.value || 0);
+
+            props.onDataReceived.call(undefined, {
+                data: jsonData.value,
+                total: jsonData.hasOwnProperty("@odata.count") ? jsonData["@odata.count"] : 0,
+            });
+        }
+
+        getData(props.dataState);
+    }, [props.dataState]);
+
+    return !data
+        ? <LoadingPanel />
+        : null;
 };
+
 const LoadingPanel = () => {
   const loadingPanel = (
     <div className="k-loading-mask">
@@ -44,7 +41,8 @@ const LoadingPanel = () => {
       <div className="k-loading-image" />
       <div className="k-loading-color" />
     </div>
-  );
+    );
+
   const gridContent = document && document.querySelector(".k-grid-content");
   return gridContent
     ? ReactDOM.createPortal(loadingPanel, gridContent)
