@@ -3,7 +3,7 @@ import * as ReactDOM from "react-dom";
 import { toODataString } from "@progress/kendo-data-query";
 
 export const EmployeesDataLoader = (props) => {
-    const [data, setData] = useState("");
+    const [loaded, setLoaded] = useState("");
 
     useEffect(() => {
         async function getData(dataState) {
@@ -15,10 +15,12 @@ export const EmployeesDataLoader = (props) => {
                 headers: {},
             };
 
+            setLoaded(false);
+
             var odataResponse = await fetch(baseUrl + toODataString(dataState), init);
             var jsonData = await odataResponse.json();
 
-            setData(jsonData.value || 0);
+            setLoaded(true);
 
             props.onDataReceived.call(undefined, {
                 data: jsonData.value,
@@ -29,7 +31,7 @@ export const EmployeesDataLoader = (props) => {
         getData(props.dataState);
     }, [props.dataState]);
 
-    return !data
+    return !loaded
         ? <LoadingPanel />
         : null;
 };
